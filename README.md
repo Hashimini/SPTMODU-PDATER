@@ -1,5 +1,5 @@
 # MODU-PDATER
-
+YOU NEED TO SET UP A SERVER OR USE https://github.com/Hashimini/SPTMODU-PDATERpanel 
 ## What is MODU-PDATER?
 
 MODU-PDATER is a launcher responsible for:
