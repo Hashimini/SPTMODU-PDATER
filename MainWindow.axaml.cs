@@ -48,70 +48,66 @@ public partial class MainWindow : Window
     private async void CheckServer()
     {
         ServerStatusText.Text = "[ STATUS: VERIFICANDO... ]";
-        StatusText.Text = "Carregando patches...";
+        StatusText.Text = "CONECTANDO...";
+        ChangelogText.Text = "Carregando patches do servidor...";
 
-        // --- TRATAMENTO INTELIGENTE DA URL (CORREÇÃO) ---
         string rawUrl = _config.ServerIp.Trim();
 
         if (string.IsNullOrWhiteSpace(rawUrl))
         {
-            StatusText.Text = "Configuração de IP do servidor vazia.";
+            ChangelogText.Text = "Configuração de IP do servidor vazia. Vá em SETTINGS e configure o IP.";
+            StatusText.Text = "ERRO DE CONFIGURAÇÃO";
             ServerStatusText.Text = "[ STATUS: ERRO ]";
             UpdateButton.Content = "Abrir SPT Launcher";
             return;
         }
 
-        // 1. Garante que possui o protocolo http:// ou https:// para o HttpClient não quebrar
         if (!rawUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
             !rawUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
         {
             rawUrl = "http://" + rawUrl;
         }
 
-        // 2. Garante que a URL aponta explicitamente para o arquivo versions.json
         string manifestUrl = rawUrl;
         if (!manifestUrl.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
         {
             manifestUrl = manifestUrl.TrimEnd('/') + "/versions.json";
         }
 
-        // 3. Extrai puramente o Host/IP de forma segura para o teste de porta do SPT Server
         string safeHost = "127.0.0.1";
         try
         {
             var uri = new Uri(manifestUrl);
-            safeHost = uri.Host; // Extrai puramente o IP (ex: "100.83.95.32")
+            safeHost = uri.Host;
         }
         catch
         {
-            StatusText.Text = "URL do Servidor inválida.";
+            ChangelogText.Text = "A URL do Servidor inserida é inválida.";
+            StatusText.Text = "URL INVÁLIDA";
             ServerStatusText.Text = "[ STATUS: ERRO ]";
             UpdateButton.Content = "Abrir SPT Launcher";
             return;
         }
-        // --- FIM DO TRATAMENTO ---
 
-        // Agora usamos a URL higienizada e completa para a Web
         bool webOnline = await _api.PingServer(manifestUrl);
-
-        // E usamos o IP purificado para testar a porta 6969 do SPT
         bool sptOnline = await _api.IsPortOpen(safeHost, 6969);
 
         ServerStatusText.Text = $"[ WEB SERVER: {(webOnline ? "ONLINE" : "OFFLINE")} | SPT SERVER: {(sptOnline ? "ONLINE" : "OFFLINE")} ]";
 
         if (!webOnline)
         {
-            StatusText.Text = "WEB server offline.";
+            ChangelogText.Text = "O servidor Web de atualizações está offline. Verifique o host ou tente novamente mais tarde.";
+            StatusText.Text = "SERVER OFFLINE";
             UpdateButton.Content = "Abrir SPT Launcher";
             return;
         }
 
-        // Usamos a URL correta aqui também
         _serverManifest = await _api.GetVersionManifest(manifestUrl);
 
         if (_serverManifest == null || !_serverManifest.Any())
         {
-            StatusText.Text = "Falha ao ler versions.json";
+            ChangelogText.Text = "Falha crítica ao ler o arquivo remoto versions.json.";
+            StatusText.Text = "ERRO MANIFESTO";
             UpdateButton.Content = "Abrir SPT Launcher";
             return;
         }
@@ -133,20 +129,18 @@ public partial class MainWindow : Window
             }
         }
 
-        updatesPendentes = updatesPendentes
-            .OrderBy(v => Version.Parse(v.Version))
-            .ToList();
+        updatesPendentes = updatesPendentes.OrderBy(v => Version.Parse(v.Version)).ToList();
 
         if (updatesPendentes.Any())
         {
             var ultimaVersao = updatesPendentes.Last();
             string notasCompiladas = string.Join("\n\n", updatesPendentes.Select(u => $"--- CHANGELOG v{u.Version} ---\n{u.Changelog}"));
 
-            StatusText.Text = $"[ ATUALIZAÇÃO DISPONIVEL ]\n" +
-                              $"Nova versão final disponível: v{ultimaVersao.Version}\n" +
-                              $"Total de {updatesPendentes.Count} patch(es) pendente(s).\n\n" +
-                              $"{notasCompiladas}";
+            ChangelogText.Text = $"Nova versão final disponível: v{ultimaVersao.Version}\n" +
+                                 $"Total de {updatesPendentes.Count} patch(es) pendente(s).\n\n" +
+                                 $"{notasCompiladas}";
 
+            StatusText.Text = "ATUALIZAÇÃO DISPONÍVEL";
             UpdateButton.Content = "Atualizar";
         }
         else
@@ -156,10 +150,11 @@ public partial class MainWindow : Window
                 ? $"\n\n--- HISTÓRICO DE ALTERAÇÕES DA v{ultimaVersaoServidor.Version} ---\n{ultimaVersaoServidor.Changelog}"
                 : "";
 
-            StatusText.Text = $"[ ATUALIZADO ]\n" +
-                              $"Versão atual instalada: v{localVersionStr}" +
-                              $"{notasUltimaVersao}";
+            ChangelogText.Text = $"Você está rodando a versão estável mais recente!\n" +
+                                 $"Versão instalada: v{localVersionStr}" +
+                                 $"{notasUltimaVersao}";
 
+            StatusText.Text = "SISTEMA ATUALIZADO";
             UpdateButton.Content = "Abrir SPT Launcher";
         }
     }
@@ -195,23 +190,31 @@ public partial class MainWindow : Window
 
             updatesPendentes = updatesPendentes.OrderBy(v => Version.Parse(v.Version)).ToList();
 
-            var progress = new Progress<double>(p =>
-            {
-
-            });
-
             foreach (var update in updatesPendentes)
             {
-                StatusText.Text = $"Baixando versão {update.Version}...";
+                var progress = new Progress<double>(p =>
+                {
+                    StatusText.Text = $"BAIXANDO v{update.Version} ({p:F0}%)";
+                    DownloadProgressBar.Value = p;
+                });
+
                 string zipPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"patch_{update.Version}.zip");
 
                 await _download.DownloadFile(update.DownloadUrl, zipPath, progress);
 
-                StatusText.Text = $"Limpando arquivos obsoletos da v{update.Version}...";
-                _delete.ExecuteDeletion(_config.SptPath, update.FilesToDelete);
+                DownloadProgressBar.Value = 100;
+                StatusText.Text = "REMOVENDO ARQUIVOS OBSOLETOS...";
 
-                StatusText.Text = $"Instalando versão {update.Version}...";
-                _extract.Extract(zipPath, _config.SptPath);
+                await Task.Run(() =>
+                {
+                    _delete.ExecuteDeletion(_config.SptPath, update.FilesToDelete);
+                });
+
+                StatusText.Text = $"EXTRAINDO v{update.Version}... (AGUARDE)";
+                await Task.Run(() =>
+                {
+                    _extract.Extract(zipPath, _config.SptPath);
+                });
 
                 if (File.Exists(zipPath))
                 {
@@ -219,14 +222,17 @@ public partial class MainWindow : Window
                 }
 
                 SaveLocalVersion(update.Version);
+                DownloadProgressBar.Value = 0;
             }
 
-            StatusText.Text = "Atualização concluída com sucesso!";
+            StatusText.Text = "CONCLUÍDO COM SUCESSO!";
             CheckServer();
         }
         catch (Exception ex)
         {
-            StatusText.Text = $"ERRO: {ex.Message}";
+            ChangelogText.Text = $"ERRO CRÍTICO NA ATUALIZAÇÃO:\n{ex.Message}\n\nVerifique se o jogo não está aberto ou se há permissão de escrita na pasta.";
+            StatusText.Text = "FALHA NO PROCESSO";
+            DownloadProgressBar.Value = 0;
         }
         finally
         {
@@ -249,7 +255,8 @@ public partial class MainWindow : Window
         _config.SptPath = SptPathBox.Text ?? "";
 
         _configService.Save(_config);
-        StatusText.Text = "Configurações gravadas com sucesso no banco de dados local.";
+        ChangelogText.Text = "Configurações gravadas com sucesso no banco de dados local. Clique em VOLTAR para aplicar.";
+        StatusText.Text = "CONFIG SALVA";
     }
 
     private void BackButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -274,7 +281,8 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            StatusText.Text = $"Erro ao abrir o launcher do SPT: {ex.Message}";
+            ChangelogText.Text = $"Erro ao abrir o launcher do SPT: {ex.Message}\nVerifique se o caminho da pasta raiz do SPT está correto nas configurações.";
+            StatusText.Text = "ERRO AO ABRIR JOGO";
         }
     }
 }

@@ -97,6 +97,7 @@
                 <Border BorderBrush="#22FFFFFF" BorderThickness="1" Padding="14" CornerRadius="4">
                     <Grid>
                         <Grid Name="MainMenu" RowDefinitions="Auto, Auto, *, Auto" IsVisible="True">
+
                             <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,10">
                                 <StackPanel Grid.Column="0" VerticalAlignment="Center">
                                     <TextBlock Text="MOD MANAGER" FontSize="22" FontWeight="Bold" Foreground="{StaticResource TextTitle}" LetterSpacing="1" />
@@ -136,7 +137,7 @@
                                         </Border>
 
                                         <ScrollViewer Grid.Row="1" Padding="15">
-                                            <TextBlock Name="StatusText" Text="Inicializando..." FontSize="13" Foreground="{StaticResource TextNormal}" TextWrapping="Wrap" LineHeight="22" />
+                                            <TextBlock Name="ChangelogText" Text="Inicializando..." FontSize="13" Foreground="{StaticResource TextNormal}" TextWrapping="Wrap" LineHeight="22" />
                                         </ScrollViewer>
                                     </Grid>
                                 </Border>
@@ -195,9 +196,19 @@
                                                 </Style>
                                             </ProgressBar.Styles>
                                         </ProgressBar>
-                                        <TextBlock Text="{Binding #DownloadProgressBar.Value, StringFormat={}{0:0}% OPERATIONAL}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="11" FontWeight="Bold" Foreground="#141414" />
+
+                                        <TextBlock Name="StatusText"
+           Text="AGUARDANDO"
+           HorizontalAlignment="Center"
+           VerticalAlignment="Center"
+           FontSize="11"
+           FontWeight="Bold"
+           Foreground="#FFFFFF"> <TextBlock.Effect>
+        <DropShadowEffect BlurRadius="2" OffsetX="1" OffsetY="1" Color="Black" />
+    </TextBlock.Effect>
+</TextBlock>
                                     </Grid>
-                                    <TextBlock Grid.Row="1" Text="PROGRESS BAR" FontSize="10" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Center" Margin="0,4,0,0" />
+                                    <TextBlock Grid.Row="1" Text="STATUS" FontSize="10" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Center" Margin="0,4,0,0" />
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -229,6 +240,7 @@
                                 </Button>
                             </StackPanel>
                         </Grid>
+
                     </Grid>
                 </Border>
             </Grid>
