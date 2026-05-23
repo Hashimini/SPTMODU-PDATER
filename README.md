@@ -88,8 +88,6 @@ After filling in the fields, click:
 SAVE
 ```
 
-Your configuration will be stored locally.
-
 ---
 
 # Usage
@@ -112,7 +110,7 @@ When opening the launcher, the system will:
 [ UPDATED ]
 ```
 
-No action is required.
+No action is needed.
 
 ---
 
