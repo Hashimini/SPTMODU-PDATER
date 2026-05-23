@@ -27,8 +27,6 @@ Example:
 D:\MODU-PDATER
 ```
 
----
-
 ## 2. Run the launcher
 
 Open:
@@ -56,21 +54,15 @@ Valid examples:
 
 ```text
 192.168.0.15:8080
-```
 
-```text
 http://192.168.0.15:8080
-```
 
-```text
 http://myserver.com:8080
 ```
 
 ### IMPORTANT
 
 If you are using WAN or a VPN connection, use the Virtual IP instead.
-
----
 
 ## SPT Path
 
@@ -82,11 +74,7 @@ Example:
 D:\SPT
 ```
 
-After filling in the fields, click:
-
-```text
-SAVE
-```
+After filling in the fields, click the SAVE button
 
 ---
 
@@ -94,15 +82,13 @@ SAVE
 
 ## Automatic verification
 
-When opening the launcher, the system will:
+When opening the launcher it will:
 
 * Check the Web Server connection
 * Search for available patches
 * Compare your local version with the server version
 
----
-
-# Possible States
+### With will result in one of those:
 
 ## Updated
 
@@ -110,9 +96,7 @@ When opening the launcher, the system will:
 [ UPDATED ]
 ```
 
-No action is needed.
-
----
+_No action is needed, you have the same version that the server._
 
 ## Update Available
 
@@ -120,48 +104,22 @@ No action is needed.
 [ UPDATE AVAILABLE ]
 ```
 
-The launcher found pending patches.
+_The launcher found pending patches._
 
 The following information will be displayed:
 
 * Latest available version
 * Number of pending patches
-* Combined changelog
+* Changelog
 
-Click:
+Just click update then the launcher will automatically:
 
-```text
-UPDATE
-```
-
-The launcher will automatically:
-
-* Download the required patches
+* Download the patches
 * Remove obsolete files
 * Extract the new files
 * Update the local version
-* Clean temporary files
 
-Do not close the launcher during the update process.
-
----
-
-# Changelog
-
-The launcher displays:
-
-* Latest version changes
-* Combined history of pending patches
-
-Example:
-
-```text
---- CHANGELOG v1.0.0 ---
-[+] Added FIKA
-
---- CHANGELOG v1.1.0 ---
-[+] Added Fontaine's FOV Fix 4.0.1
-```
+Do not close the launcher during the update process or you will lose the progress.
 
 ---
 
@@ -177,16 +135,6 @@ Check:
 * Firewall
 * Configured IP
 * Server port
-
----
-
-## SPT SERVER OFFLINE
-
-The SPT Server is currently offline.
-
-This does not prevent updates from working.
-
----
 
 ## Failed to read versions.json
 
