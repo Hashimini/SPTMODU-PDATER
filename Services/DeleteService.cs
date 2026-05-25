@@ -22,9 +22,7 @@ public class DeleteService
                 string fullTargetPath = Path.GetFullPath(targetPath);
 
                 if (!fullTargetPath.StartsWith(fullBasePath, StringComparison.OrdinalIgnoreCase))
-                {
-                    continue;
-                }
+                { continue; }
 
                 if (File.Exists(fullTargetPath))
                 {

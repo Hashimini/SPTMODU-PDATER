@@ -19,9 +19,7 @@ public class DownloadService
         var totalBytes = responseMessage.Content.Headers.ContentLength ?? throw new Exception("Não foi possível determinar o tamanho do patch.");
 
         using (var fs = new FileStream(outputPath, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
-        {
-            fs.SetLength(totalBytes);
-        }
+        { fs.SetLength(totalBytes); }
 
         long chunkSize = totalBytes / MAX_CONCURRENCY;
         var tasks = new List<Task>();

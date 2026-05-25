@@ -62,17 +62,12 @@ public partial class MainWindow : Window
             return;
         }
 
-        if (!rawUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
-            !rawUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-        {
-            rawUrl = "http://" + rawUrl;
-        }
+        if (!rawUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase) && !rawUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+        { rawUrl = "http://" + rawUrl; }
 
         string manifestUrl = rawUrl;
         if (!manifestUrl.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
-        {
-            manifestUrl = manifestUrl.TrimEnd('/') + "/versions.json";
-        }
+        { manifestUrl = manifestUrl.TrimEnd('/') + "/versions.json"; }
 
         string safeHost = "127.0.0.1";
         try
@@ -115,18 +110,14 @@ public partial class MainWindow : Window
         string localVersionStr = GetLocalVersion();
 
         if (!Version.TryParse(localVersionStr, out Version? localVersion))
-        {
-            localVersion = new Version(0, 0, 0);
-        }
+        { localVersion = new Version(0, 0, 0); }
 
         var updatesPendentes = new List<VersionInfo>();
 
         foreach (var v in _serverManifest)
         {
             if (Version.TryParse(v.Version, out Version? serverVer) && serverVer > localVersion)
-            {
-                updatesPendentes.Add(v);
-            }
+            { updatesPendentes.Add(v); }
         }
 
         updatesPendentes = updatesPendentes.OrderBy(v => Version.Parse(v.Version)).ToList();

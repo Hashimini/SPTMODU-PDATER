@@ -1,23 +1,16 @@
-<Window
-    xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    x:Class="MODUPDATER.MainWindow"
-    Width="850"
-    Height="480"
-    Title="MODU-PDATER"
-    WindowStartupLocation="CenterScreen"
-    FontFamily="avares://MODUPDATER/Assets/Fonts/#Teko, Courier New, monospace"
-    Background="#090909"
->
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="MODUPDATER.MainWindow"
+        Width="850"
+        Height="480"
+        Title="MODU-PDATER"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="avares://MODUPDATER/Assets/Fonts/#Teko, Courier New, monospace"
+        Background="#000000">
 
     <Window.Resources>
-        <SolidColorBrush x:Key="BgMain" Color="#141414" />
-        <SolidColorBrush x:Key="SurfacePanel" Color="#1C1C1C" />
         <SolidColorBrush x:Key="SurfaceElevated" Color="#252525" />
         <SolidColorBrush x:Key="BorderDark" Color="#333333" />
-        <SolidColorBrush x:Key="BorderHighlight" Color="#4F4F4F" />
-        <SolidColorBrush x:Key="PrimaryGreen" Color="#5A6246" />
-        <SolidColorBrush x:Key="HoverGreen" Color="#6B7553" />
         <SolidColorBrush x:Key="GoldPrimary" Color="#D5A63A" />
         <SolidColorBrush x:Key="GoldBright" Color="#F0C75E" />
         <SolidColorBrush x:Key="TextTitle" Color="#E5DFC9" />
@@ -42,14 +35,15 @@
     </Window.Styles>
 
     <Grid>
-        <Border Background="#090909" />
+        <!-- This is the background related -->
+        <Border Background="#000000" />
 
         <Rectangle Opacity="0.45">
             <Rectangle.Fill>
                 <ImageBrush Source="avares://MODUPDATER/Assets/carbon.png"
                             TileMode="Tile"
                             Stretch="None"
-                            DestinationRect="0,0,40,40" />
+                            DestinationRect="0,0,30,30" />
             </Rectangle.Fill>
         </Rectangle>
 
@@ -62,46 +56,37 @@
             </Border.Background>
         </Border>
 
-        <Border Height="140" VerticalAlignment="Top" IsHitTestVisible="False">
-            <Border.Background>
-                <RadialGradientBrush Center="0.5,0.45" RadiusX="0.9" RadiusY="0.9">
-                    <GradientStop Offset="0" Color="#18D5A63A" />
-                    <GradientStop Offset="1" Color="#00000000" />
-                </RadialGradientBrush>
-            </Border.Background>
-        </Border>
-
+        <!-- The background text details -->
         <Grid IsHitTestVisible="False" Opacity="0.15">
-            <TextBlock Text="udi: 18127364" FontSize="11" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="45,95,0,0" />
-            <TextBlock Text="vv: 721     0.3" FontSize="11" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,95,45,0" />
+            <TextBlock Text="udi: 0B1A0N0G0B0O1O0" FontSize="11" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="35,80,0,0" />
+            <TextBlock Text=".vv: 721     0.3." FontSize="11" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,95,30,0" />
 
-            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,0,0,0" Spacing="2">
-                <TextBlock Text="● SYS_LINK" FontSize="9" Foreground="{StaticResource GoldPrimary}" FontWeight="Bold"/>
-                <TextBlock Text="|cience - 10,20" FontSize="11" Foreground="{StaticResource TextNormal}" />
-                <TextBlock Text="----------------" FontSize="10" Foreground="{StaticResource BorderDark}" />
-                <TextBlock Text="LOC.DB // N-402" FontSize="9" Foreground="{StaticResource TextMuted}" />
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,0,0,0" Spacing="2">
+                <TextBlock Text="● SYS_LINK" FontSize="9" Foreground="{StaticResource GoldPrimary}" FontWeight="Bold" RenderTransformOrigin="0.5,0.5"> <TextBlock.RenderTransform> <RotateTransform Angle="90" /> </TextBlock.RenderTransform> </TextBlock>
+                <TextBlock Text="|" FontSize="11" Foreground="{StaticResource TextNormal}" />
+                <TextBlock Text="LOCK.IN // N-402" FontSize="9" Foreground="{StaticResource TextMuted}" > <TextBlock.RenderTransform> <RotateTransform Angle="-90" /> </TextBlock.RenderTransform> </TextBlock>
             </StackPanel>
 
             <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,40,0" Spacing="2">
-                <TextBlock Text="SEC_COMPLIANT" FontSize="9" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Right"/>
+                <TextBlock Text="USEC_COPILOT_IA" FontSize="9" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Right"/>
                 <TextBlock Text="=================" FontSize="10" Foreground="{StaticResource BorderDark}" HorizontalAlignment="Right"/>
-                <TextBlock Text="NET_NODE_OK" FontSize="9" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Right" />
+                <TextBlock Text=".NET_SDK_OK" FontSize="9" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Right" />
             </StackPanel>
 
-            <TextBlock Text="-------------------------------------------------------------------------------------------------------" FontSize="12" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,105" />
-            <TextBlock Text="LAT. 43.109 // LON. -75.244" FontSize="9" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="45,0,0,92" />
+            <TextBlock Text="____________________________________________________________________________________________" FontSize="12" Foreground="{StaticResource GoldBright}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="230,0,0,95" />
+            <TextBlock Text="LAT. 69.420 // LON. -67.67" FontSize="9" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="40,0,0,17" />
         </Grid>
 
-        <Border Margin="12" Padding="15" CornerRadius="6" BorderThickness="1" BorderBrush="#3A3A3A" Background="Transparent">
             <Grid>
-                <Border BorderBrush="#22FFFFFF" BorderThickness="1" Padding="14" CornerRadius="4">
+                <Border BorderBrush="#22FFFFFF" BorderThickness="1" Margin ="17" Padding="15" CornerRadius="4">
                     <Grid>
+                        <!-- Main Menu Area -->
                         <Grid Name="MainMenu" RowDefinitions="Auto, Auto, *, Auto" IsVisible="True">
-
+                            <!-- Header -->
                             <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,10">
                                 <StackPanel Grid.Column="0" VerticalAlignment="Center">
                                     <TextBlock Text="MOD MANAGER" FontSize="22" FontWeight="Bold" Foreground="{StaticResource TextTitle}" LetterSpacing="1" />
-                                    <TextBlock Text="LAUNCHER v1.0.2" FontSize="11" Foreground="{StaticResource TextMuted}" Margin="0,2,0,0" />
+                                    <TextBlock Text="LAUNCHER v1.0.5" FontSize="11" Foreground="{StaticResource TextMuted}" Margin="0,2,0,0" />
                                 </StackPanel>
 
                                 <Button Name="SettingsButton" Grid.Column="1" Click="SettingsButton_Click" Background="Transparent" BorderBrush="{StaticResource GoldPrimary}" BorderThickness="1.5" CornerRadius="3" Padding="16,8" VerticalAlignment="Center">
@@ -119,6 +104,7 @@
 
                             <TextBlock Name="ServerStatusText" Grid.Row="1" Text="[ VERIFICANDO SERVIDORES... ]" FontSize="11" FontWeight="Bold" Foreground="{StaticResource GoldPrimary}" Margin="0,0,0,8" />
 
+                            <!-- Changelog Area -->
                             <Grid Grid.Row="2" Margin="0,0,0,15">
                                 <Border BorderBrush="{StaticResource BorderDark}" BorderThickness="1">
                                     <Border.Background>
@@ -131,17 +117,18 @@
                                     <Grid RowDefinitions="Auto,*">
                                         <Border Grid.Row="0" Background="#222222" BorderBrush="{StaticResource BorderDark}" BorderThickness="0,0,0,1" Padding="12,8">
                                             <Grid ColumnDefinitions="*,Auto">
-                                                <TextBlock Text="LATEST_CHANGELOG.TXT" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextMuted}" LetterSpacing="0.5" />
+                                                <TextBlock Text="LATEST_CHANGELOG.TXT" FontSize="11" FontWeight="DemiBold" Foreground="{StaticResource TextMuted}" LetterSpacing="0.5" />
                                                 <TextBlock Grid.Column="1" Text="✕" FontSize="11" Foreground="#555555" />
                                             </Grid>
                                         </Border>
 
                                         <ScrollViewer Grid.Row="1" Padding="15">
-                                            <TextBlock Name="ChangelogText" Text="Inicializando..." FontSize="13" Foreground="{StaticResource TextNormal}" TextWrapping="Wrap" LineHeight="22" />
+                                            <TextBlock Name="ChangelogText" Text="Carregando..." FontSize="13" Foreground="{StaticResource TextNormal}" TextWrapping="Wrap" LineHeight="22" />
                                         </ScrollViewer>
                                     </Grid>
                                 </Border>
 
+                                <!-- Cool yellow edges! -->
                                 <Border Width="10" Height="2" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3,0,0" />
                                 <Border Width="2" Height="10" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3,0,0" />
                                 <Border Width="10" Height="2" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,3,3,0" />
@@ -152,7 +139,9 @@
                                 <Border Width="2" Height="20" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,4,4" />
                             </Grid>
 
+                            <!-- Bottom Area -->
                             <Grid Grid.Row="3" ColumnDefinitions="Auto,*,Auto" Height="65">
+                                <!-- Update Button -->
                                 <Grid Grid.Column="0" Width="220">
                                     <Border Background="{StaticResource SurfaceElevated}" BorderBrush="#4A3A14" BorderThickness="1">
                                         <Border.Background>
@@ -162,7 +151,7 @@
                                             </LinearGradientBrush>
                                         </Border.Background>
                                         <Grid ColumnDefinitions="*,Auto">
-                                            <Button Name="UpdateButton" Grid.Column="0" Click="UpdateButton_Click" Content="ATUALIZAR" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontWeight="ExtraBold" Foreground="{StaticResource TextTitle}" Background="Transparent" BorderThickness="0">
+                                            <Button Name="UpdateButton" Grid.Column="0" Click="UpdateButton_Click" Content="ATUALIZAR" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="17" FontWeight="Bold" Foreground="{StaticResource TextTitle}" Background="Transparent" BorderThickness="0">
                                                 <Button.Styles>
                                                     <Style Selector="Button:hover">
                                                         <Setter Property="Opacity" Value="0.9" />
@@ -171,16 +160,19 @@
                                             </Button>
                                         </Grid>
                                     </Border>
-                                    <Border Width="18" Height="2" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,8,0,0" />
-                                    <Border Width="2" Height="18" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,8,0,0" />
-                                    <Border Width="18" Height="2" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,8,8,0" />
-                                    <Border Width="2" Height="18" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,8,8,0" />
-                                    <Border Width="18" Height="2" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="8,0,0,8" />
-                                    <Border Width="2" Height="18" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="8,0,0,8" />
-                                    <Border Width="18" Height="2" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,8,8" />
-                                    <Border Width="2" Height="18" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,8,8" />
+
+                                    <!-- More cool yellow borders -->
+                                    <Border Width="13" Height="2" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,8,0,0" />
+                                    <Border Width="2" Height="13" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,8,0,0" />
+                                    <Border Width="13" Height="2" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,8,8,0" />
+                                    <Border Width="2" Height="13" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,8,8,0" />
+                                    <Border Width="13" Height="2" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="8,0,0,8" />
+                                    <Border Width="2" Height="13" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="8,0,0,8" />
+                                    <Border Width="13" Height="2" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,8,8" />
+                                    <Border Width="2" Height="13" Background="{StaticResource GoldPrimary}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,8,8" />
                                 </Grid>
 
+                                <!-- Progress Bar & Update status -->
                                 <Grid Grid.Column="1" Margin="25,0" RowDefinitions="*,Auto">
                                     <Grid Grid.Row="0" VerticalAlignment="Center">
                                         <ProgressBar Name="DownloadProgressBar" Minimum="0" Maximum="100" Value="0" Height="24" HorizontalAlignment="Stretch" Background="#1C1C1C" BorderBrush="{StaticResource BorderDark}" BorderThickness="1" CornerRadius="0">
@@ -198,21 +190,22 @@
                                         </ProgressBar>
 
                                         <TextBlock Name="StatusText"
-           Text="AGUARDANDO"
-           HorizontalAlignment="Center"
-           VerticalAlignment="Center"
-           FontSize="11"
-           FontWeight="Bold"
-           Foreground="#FFFFFF"> <TextBlock.Effect>
-        <DropShadowEffect BlurRadius="2" OffsetX="1" OffsetY="1" Color="Black" />
-    </TextBlock.Effect>
-</TextBlock>
+                                                   Text="AGUARDANDO"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="13"
+                                                   Foreground="#FFFFFF">
+                                            <TextBlock.Effect>
+                                                <DropShadowEffect BlurRadius="2" OffsetX="1" OffsetY="1" Color="Black" />
+                                            </TextBlock.Effect>
+                                        </TextBlock>
                                     </Grid>
                                     <TextBlock Grid.Row="1" Text="STATUS" FontSize="10" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Center" Margin="0,4,0,0" />
                                 </Grid>
                             </Grid>
                         </Grid>
 
+                        <!-- Settings Menu Area -->
                         <Grid Name="SettingsMenu" RowDefinitions="Auto,*,Auto" IsVisible="False">
                             <Border Grid.Row="0" BorderBrush="{StaticResource BorderDark}" BorderThickness="0,0,0,2" Padding="0,0,0,10" Margin="0,0,0,20">
                                 <TextBlock Text="SERVER CONFIG" FontSize="18" FontWeight="Bold" Foreground="{StaticResource GoldPrimary}" LetterSpacing="1" />
@@ -221,7 +214,7 @@
                             <StackPanel Grid.Row="1" Spacing="15">
                                 <StackPanel Spacing="5">
                                     <TextBlock Text="WEB SERVER URL:" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextMuted}" />
-                                    <TextBox Name="ServerIpBox" PlaceholderText="http://127.0.0.1:8080/versions.json" />
+                                    <TextBox Name="ServerIpBox" PlaceholderText="http://127.0.0.1:8080" />
                                 </StackPanel>
                                 <StackPanel Spacing="5">
                                     <TextBlock Text="SPT ROOT PATH:" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextMuted}" />
@@ -240,10 +233,8 @@
                                 </Button>
                             </StackPanel>
                         </Grid>
-
                     </Grid>
                 </Border>
             </Grid>
-        </Border>
     </Grid>
 </Window>

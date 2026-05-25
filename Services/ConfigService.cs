@@ -10,10 +10,10 @@ public class ConfigService
 
     public AppConfig Load()
     {
+        // Create a config.json based on the AppConfig.cs
         if (!File.Exists(CONFIG_PATH))
         {
             var defaultConfig = new AppConfig();
-
             Save(defaultConfig);
 
             return defaultConfig;
@@ -21,18 +21,14 @@ public class ConfigService
 
         string json = File.ReadAllText(CONFIG_PATH);
 
-        return JsonSerializer.Deserialize<AppConfig>(json)
-            ?? new AppConfig();
+        return JsonSerializer.Deserialize<AppConfig>(json) ?? new AppConfig();
     }
 
     public void Save(AppConfig config)
     {
         string json = JsonSerializer.Serialize(
             config,
-            new JsonSerializerOptions
-            {
-                WriteIndented = true
-            }
+            new JsonSerializerOptions { WriteIndented = true }
         );
 
         File.WriteAllText(CONFIG_PATH, json);

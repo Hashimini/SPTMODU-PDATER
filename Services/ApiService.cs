@@ -11,6 +11,7 @@ public class ApiService
 {
     private readonly HttpClient _client = new();
 
+    // Tudo aqui sao funcoes assincronas para permitir o funcionamento do launcher enquanto elas estao sendo processadas , fiquei com preguica de colocar em EN
     public async Task<bool> PingServer(string url)
     {
         try
@@ -19,9 +20,7 @@ public class ApiService
             return response.IsSuccessStatusCode;
         }
         catch
-        {
-            return false;
-        }
+        { return false; }
     }
 
     public async Task<List<VersionInfo>?> GetVersionManifest(string url)
@@ -31,30 +30,26 @@ public class ApiService
             var json = await _client.GetStringAsync(url);
 
             var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
+            { PropertyNameCaseInsensitive = true };
 
             return JsonSerializer.Deserialize<List<VersionInfo>>(json, options);
         }
         catch
-        {
-            return null;
-        }
+        { return null; }
     }
-    public async Task<bool> IsPortOpen(string host, int port, int timeoutMilliseconds = 2000)
+
+    // Usada tanto pra pingar o web server quanto o spt server
+    public async Task<bool> IsPortOpen(string host, int port, int timeout = 2000)
     {
         using var client = new TcpClient();
         try
         {
             var connectTask = client.ConnectAsync(host, port);
-            var completedTask = await Task.WhenAny(connectTask, Task.Delay(timeoutMilliseconds));
+            var completedTask = await Task.WhenAny(connectTask, Task.Delay(timeout));
 
             return completedTask == connectTask && client.Connected;
         }
         catch
-        {
-            return false;
-        }
+        { return false; }
     }
 }
