@@ -6,7 +6,8 @@
         Title="MODU-PDATER"
         WindowStartupLocation="CenterScreen"
         FontFamily="avares://MODUPDATER/Assets/Fonts/#Teko, Courier New, monospace"
-        Background="#000000">
+        Background="#000000"
+        Icon="/Assets/icon.ico">
 
     <Window.Resources>
         <SolidColorBrush x:Key="SurfaceElevated" Color="#252525" />
