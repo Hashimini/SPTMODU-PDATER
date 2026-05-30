@@ -1,0 +1,55 @@
+{
+  "Comment":"Autora: Rebecca Delacour, Maio / 2026" ,
+
+
+  "Checking": "[ VERIFICANDO... ]",
+  "Connecting": "CONECTANDO...",
+  "Loading": "Carregando...",
+
+  "EmptyServerIP": "Configuração de IP do servidor vazia. Vá em \"SETTINGS\" e configure o IP.",
+  "InvalidServerURL": "A URL do Servidor inserida é inválida.",
+  "InvalidUrl": "URL INVÁLIDA",
+
+  "Error": "ERRO",
+  "StatusError": "[ ERRO ]",
+
+  "OpenLauncher": "Abrir SPT Launcher",
+  "Update": "Atualizar",
+
+  "WebServer": "WEB SERVER",
+  "SptServer": "SPT SERVER",
+  "Online": "ONLINE",
+  "Offline": "OFFLINE",
+
+  "UpdateServerOffline": "O servidor de atualizações está offline. Verifique o host.",
+  "ServerOffline": "SERVER OFFLINE",
+
+  "ManifestReadFailed": "Falha ao ler o arquivo remoto \"versions.json\".",
+
+  "UpdateAvailable": "ATUALIZAÇÃO DISPONÍVEL",
+  "Updated": "MODS ATUALIZADO",
+
+  "NewVersionAvailable": "Nova versão disponível",
+  "PendingPatches": "patch(s) pendente(s)",
+  "ChangelogHeader": "CHANGELOG",
+
+  "LatestVersionInstalled": "Você está na versão mais recente!",
+  "InstalledVersion": "Versão instalada",
+  "VersionHistory": "HISTÓRICO DE VERSÕES",
+
+  "Downloading": "BAIXANDO",
+  "RemovingFiles": "REMOVENDO ARQUIVOS...",
+  "Extracting": "EXTRAINDO",
+  "CompletedSuccessfully": "CONCLUÍDO!",
+
+  "CriticalUpdateError": "ERRO NA ATUALIZAÇÃO",
+  "CheckGame": "Verifique se o jogo não está aberto.",
+  "UpdateFailed": "FALHA NO PROCESSO",
+
+  "SettingsSaved": "Configurações gravadas. Clique VOLTAR para aplicar.",
+  "ConfigSaved": "CONFIG SALVA",
+
+  "LauncherOpenError": "Erro ao abrir o SPT.Launcher",
+  "CheckSptPath": "Verifique o caminho da pasta do SPT.",
+  "GameLaunchError": "ERRO AO ABRIR JOGO"
+}

@@ -1,0 +1,55 @@
+{
+  "Comment":"Author: Rebecca Delacour, May / 2026" ,
+
+
+  "Checking": "Checking...",
+  "Connecting": "Connecting...",
+  "Loading": "Loading...",
+
+  "EmptyServerIP": "Server IP configuration is empty. Go to \"SETTINGS\" and configure the IP.",
+  "InvalidServerURL": "The provided server URL is invalid.",
+  "InvalidURL": "INVALID URL",
+
+  "Error": "ERROR",
+  "StatusError": "[ ERROR ]",
+
+  "OpenLauncher": "Open SPT Launcher",
+  "Update": "Update",
+
+  "WebServer": "WEB SERVER",
+  "SptServer": "SPT SERVER",
+  "Online": "ONLINE",
+  "Offline": "OFFLINE",
+
+  "UpdateServerOffline": "The mods server is offline.",
+  "ServerOffline": "SERVER OFFLINE",
+
+  "ManifestReadFailed": "Failed to read file \"versions.json\".",
+
+  "UpdateAvailable": "UPDATE AVAILABLE",
+  "Updated": "MODS UPDATED",
+
+  "NewVersionAvailable": "New version available",
+  "PendingPatches": "pending patch(es)",
+  "ChangelogHeader": "CHANGELOG",
+
+  "LatestVersionInstalled": "You are running the latest stable version!",
+  "InstalledVersion": "Installed version",
+  "VersionHistory": "CHANGE HISTORY",
+
+  "Downloading": "DOWNLOADING",
+  "RemovingFiles": "REMOVING FILES...",
+  "Extracting": "EXTRACTING",
+  "CompletedSuccessfully": "COMPLETED SUCCESSFULLY!",
+
+  "CriticalUpdateError": "CRITICAL UPDATE ERROR",
+  "CheckGame": "Verify that the game is not open and that write permission exists in the folder.",
+  "UpdateFailed": "UPDATE FAILED",
+
+  "SettingsSaved": "Settings saved. Click BACK to apply.",
+  "ConfigSaved": "CONFIG SAVED",
+
+  "LauncherOpenError": "Error opening SPT.Launcher",
+  "CheckSptPath": "Verify the SPT folder path.",
+  "GameLaunchError": "ERROR OPENING THE GAME"
+}

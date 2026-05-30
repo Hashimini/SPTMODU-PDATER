@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using MODUPDATER.Services;
 using MODUPDATER.Models;
 using MODUPDATER.Config;
+using MODUPDATER.Lang;
 using System.Diagnostics;
 using System.Linq;
 using System.Collections.Generic;
@@ -21,44 +22,47 @@ public partial class MainWindow : Window
 
     private AppConfig _config = new();
     private List<VersionInfo>? _serverManifest;
-    private const string VERSION_FILE = "LauncherVersion.txt";
 
+    //Initialize the basic logic
     public MainWindow()
     {
         InitializeComponent();
+        LangService.Load();
         _config = _configService.Load();
         CheckServer();
     }
 
     private string GetLocalVersion()
     {
-        if (!File.Exists(VERSION_FILE))
+        if (string.IsNullOrWhiteSpace(_config.InstalledVersion))
         {
-            File.WriteAllText(VERSION_FILE, "0.0.0");
-            return "0.0.0";
+            _config.InstalledVersion = "0.0.0";
+            _configService.Save(_config);
         }
-        return File.ReadAllText(VERSION_FILE).Trim();
+
+        return _config.InstalledVersion;
     }
 
     private void SaveLocalVersion(string version)
     {
-        File.WriteAllText(VERSION_FILE, version);
+        _config.InstalledVersion = version;
+        _configService.Save(_config);
     }
 
     private async void CheckServer()
     {
-        ServerStatusText.Text = "[ STATUS: VERIFICANDO... ]";
-        StatusText.Text = "CONECTANDO...";
-        ChangelogText.Text = "Carregando patches do servidor...";
+        ServerStatusText.Text = LangService.Get("Checking");
+        StatusText.Text = LangService.Get("Connecting");
+        ChangelogText.Text = LangService.Get("Loading");
 
         string rawUrl = _config.ServerIp.Trim();
 
         if (string.IsNullOrWhiteSpace(rawUrl))
         {
-            ChangelogText.Text = "Configuração de IP do servidor vazia. Vá em SETTINGS e configure o IP.";
-            StatusText.Text = "ERRO DE CONFIGURAÇÃO";
-            ServerStatusText.Text = "[ STATUS: ERRO ]";
-            UpdateButton.Content = "Abrir SPT Launcher";
+            ChangelogText.Text = LangService.Get("EmptyServerIP");
+            StatusText.Text = LangService.Get("Error");
+            ServerStatusText.Text = LangService.Get("StatusError");
+            UpdateButton.Content = LangService.Get("OpenLauncher");
             return;
         }
 
@@ -77,23 +81,23 @@ public partial class MainWindow : Window
         }
         catch
         {
-            ChangelogText.Text = "A URL do Servidor inserida é inválida.";
-            StatusText.Text = "URL INVÁLIDA";
-            ServerStatusText.Text = "[ STATUS: ERRO ]";
-            UpdateButton.Content = "Abrir SPT Launcher";
+            ChangelogText.Text = LangService.Get("InvalidServerURL");
+            StatusText.Text = LangService.Get("InvalidURL");
+            ServerStatusText.Text = LangService.Get("StatusError");
+            UpdateButton.Content = LangService.Get("OpenLauncher");
             return;
         }
 
         bool webOnline = await _api.PingServer(manifestUrl);
         bool sptOnline = await _api.IsPortOpen(safeHost, 6969);
 
-        ServerStatusText.Text = $"[ WEB SERVER: {(webOnline ? "ONLINE" : "OFFLINE")} | SPT SERVER: {(sptOnline ? "ONLINE" : "OFFLINE")} ]";
+        ServerStatusText.Text = $"[ WEB SERVER: {(webOnline ? LangService.Get("Online") : LangService.Get("Offline"))} | SPT SERVER: {(sptOnline ? LangService.Get("Online") : LangService.Get("Offline"))} ]";
 
         if (!webOnline)
         {
-            ChangelogText.Text = "O servidor Web de atualizações está offline. Verifique o host ou tente novamente mais tarde.";
-            StatusText.Text = "SERVER OFFLINE";
-            UpdateButton.Content = "Abrir SPT Launcher";
+            ChangelogText.Text = LangService.Get("UpdateServerOffline");
+            StatusText.Text = LangService.Get("ServerOffline");
+            UpdateButton.Content = LangService.Get("OpenLauncher");
             return;
         }
 
@@ -101,9 +105,9 @@ public partial class MainWindow : Window
 
         if (_serverManifest == null || !_serverManifest.Any())
         {
-            ChangelogText.Text = "Falha crítica ao ler o arquivo remoto versions.json.";
-            StatusText.Text = "ERRO MANIFESTO";
-            UpdateButton.Content = "Abrir SPT Launcher";
+            ChangelogText.Text = LangService.Get("ManifestReadFailed");
+            StatusText.Text = LangService.Get("Error");
+            UpdateButton.Content = LangService.Get("OpenLauncher");
             return;
         }
 
@@ -127,32 +131,31 @@ public partial class MainWindow : Window
             var ultimaVersao = updatesPendentes.Last();
             string notasCompiladas = string.Join("\n\n", updatesPendentes.Select(u => $"--- CHANGELOG v{u.Version} ---\n{u.Changelog}"));
 
-            ChangelogText.Text = $"Nova versão final disponível: v{ultimaVersao.Version}\n" +
-                                 $"Total de {updatesPendentes.Count} patch(es) pendente(s).\n\n" +
+            ChangelogText.Text = LangService.Get("NewVersionAvailable") + $"v{ultimaVersao.Version}\n" +
+                                 $"{updatesPendentes.Count}" + LangService.Get("PendingPatches") + $"\n\n" +
                                  $"{notasCompiladas}";
 
-            StatusText.Text = "ATUALIZAÇÃO DISPONÍVEL";
-            UpdateButton.Content = "Atualizar";
-        }
-        else
+            StatusText.Text = LangService.Get("UpdateAvaliable");
+            UpdateButton.Content = LangService.Get("Update");
+        } else
         {
             var ultimaVersaoServidor = _serverManifest.OrderBy(v => Version.Parse(v.Version)).LastOrDefault();
             string notasUltimaVersao = ultimaVersaoServidor != null
-                ? $"\n\n--- HISTÓRICO DE ALTERAÇÕES DA v{ultimaVersaoServidor.Version} ---\n{ultimaVersaoServidor.Changelog}"
+                ? $"\n\n" + LangService.Get("VersionHistory") + $"v{ultimaVersaoServidor.Version} \n{ultimaVersaoServidor.Changelog}"
                 : "";
 
-            ChangelogText.Text = $"Você está rodando a versão estável mais recente!\n" +
-                                 $"Versão instalada: v{localVersionStr}" +
+            ChangelogText.Text = LangService.Get("LatestVersionInstalled") + $"\n" +
+                                 LangService.Get("InstalledVersion") + $"v{localVersionStr}" +
                                  $"{notasUltimaVersao}";
 
-            StatusText.Text = "SISTEMA ATUALIZADO";
-            UpdateButton.Content = "Abrir SPT Launcher";
+            StatusText.Text = LangService.Get("Updated");
+            UpdateButton.Content = LangService.Get("OpenLauncher");
         }
     }
 
     private async void UpdateButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        if (UpdateButton.Content?.ToString() == "Abrir SPT Launcher")
+        if (UpdateButton.Content?.ToString() == LangService.Get("OpenLauncher"))
         {
             OpenSptLauncher();
             return;
@@ -164,9 +167,7 @@ public partial class MainWindow : Window
         {
             string localVersionStr = GetLocalVersion();
             if (!Version.TryParse(localVersionStr, out Version? localVersion))
-            {
-                localVersion = new Version(0, 0, 0);
-            }
+            { localVersion = new Version(0, 0, 0); }
 
             if (_serverManifest == null) return;
 
@@ -174,9 +175,7 @@ public partial class MainWindow : Window
             foreach (var v in _serverManifest)
             {
                 if (Version.TryParse(v.Version, out Version? serverVer) && serverVer > localVersion)
-                {
-                    updatesPendentes.Add(v);
-                }
+                { updatesPendentes.Add(v); }
             }
 
             updatesPendentes = updatesPendentes.OrderBy(v => Version.Parse(v.Version)).ToList();
@@ -185,7 +184,7 @@ public partial class MainWindow : Window
             {
                 var progress = new Progress<double>(p =>
                 {
-                    StatusText.Text = $"BAIXANDO v{update.Version} ({p:F0}%)";
+                    StatusText.Text = LangService.Get("Downloading") + $"v{update.Version} ({p:F0}%)";
                     DownloadProgressBar.Value = p;
                 });
 
@@ -194,41 +193,34 @@ public partial class MainWindow : Window
                 await _download.DownloadFile(update.DownloadUrl, zipPath, progress);
 
                 DownloadProgressBar.Value = 100;
-                StatusText.Text = "REMOVENDO ARQUIVOS OBSOLETOS...";
+                StatusText.Text = LangService.Get("RemovingFiles");
 
                 await Task.Run(() =>
-                {
-                    _delete.ExecuteDeletion(_config.SptPath, update.FilesToDelete);
-                });
+                { _delete.ExecuteDeletion(_config.SptPath, update.FilesToDelete); });
 
-                StatusText.Text = $"EXTRAINDO v{update.Version}... (AGUARDE)";
+                StatusText.Text = LangService.Get("Extracting") + $"v{update.Version}...";
+
                 await Task.Run(() =>
-                {
-                    _extract.Extract(zipPath, _config.SptPath);
-                });
+                { _extract.Extract(zipPath, _config.SptPath); });
 
                 if (File.Exists(zipPath))
-                {
-                    File.Delete(zipPath);
-                }
+                { File.Delete(zipPath); }
 
                 SaveLocalVersion(update.Version);
                 DownloadProgressBar.Value = 0;
             }
 
-            StatusText.Text = "CONCLUÍDO COM SUCESSO!";
+            StatusText.Text = LangService.Get("CompletedSuccessfully");
             CheckServer();
         }
         catch (Exception ex)
         {
-            ChangelogText.Text = $"ERRO CRÍTICO NA ATUALIZAÇÃO:\n{ex.Message}\n\nVerifique se o jogo não está aberto ou se há permissão de escrita na pasta.";
-            StatusText.Text = "FALHA NO PROCESSO";
+            ChangelogText.Text = LangService.Get("CriticalUpdateError") + $"\n{ex.Message}\n\n" + LangService.Get("CheckGame");
+            StatusText.Text = LangService.Get("UpdateFailed");
             DownloadProgressBar.Value = 0;
         }
         finally
-        {
-            UpdateButton.IsEnabled = true;
-        }
+        { UpdateButton.IsEnabled = true; }
     }
 
     private void SettingsButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -246,8 +238,8 @@ public partial class MainWindow : Window
         _config.SptPath = SptPathBox.Text ?? "";
 
         _configService.Save(_config);
-        ChangelogText.Text = "Configurações gravadas com sucesso no banco de dados local. Clique em VOLTAR para aplicar.";
-        StatusText.Text = "CONFIG SALVA";
+        ChangelogText.Text = LangService.Get("SettingsSaved");
+        StatusText.Text = LangService.Get("ConfigSaved");
     }
 
     private void BackButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -264,16 +256,12 @@ public partial class MainWindow : Window
             string launcherPath = Path.Combine(_config.SptPath, "SPT.Launcher.exe");
 
             Process.Start(new ProcessStartInfo
-            {
-                FileName = launcherPath,
-                WorkingDirectory = _config.SptPath,
-                UseShellExecute = true
-            });
+            { FileName = launcherPath, WorkingDirectory = _config.SptPath, UseShellExecute = true });
         }
         catch (Exception ex)
         {
-            ChangelogText.Text = $"Erro ao abrir o launcher do SPT: {ex.Message}\nVerifique se o caminho da pasta raiz do SPT está correto nas configurações.";
-            StatusText.Text = "ERRO AO ABRIR JOGO";
+            ChangelogText.Text = LangService.Get("LauncherOpenError") + $"{ex.Message}\n" + LangService.Get("CheckSptPath");
+            StatusText.Text = LangService.Get("GameLaunchError");
         }
     }
 }

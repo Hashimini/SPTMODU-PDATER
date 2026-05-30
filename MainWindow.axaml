@@ -213,7 +213,7 @@
 
                             <StackPanel Grid.Row="1" Spacing="15">
                                 <StackPanel Spacing="5">
-                                    <TextBlock Text="WEB SERVER URL:" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextMuted}" />
+                                    <TextBlock Text="URL/IP:" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextMuted}" />
                                     <TextBox Name="ServerIpBox" PlaceholderText="http://127.0.0.1:8080" />
                                 </StackPanel>
                                 <StackPanel Spacing="5">
@@ -223,8 +223,8 @@
                             </StackPanel>
 
                             <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="15" HorizontalAlignment="Right" Margin="0,20,0,0">
-                                <Button Content="VOLTAR" Width="140" Height="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#252525" Foreground="{StaticResource TextNormal}" BorderBrush="{StaticResource BorderDark}" BorderThickness="1" Click="BackButton_Click" />
-                                <Button Content="SALVAR" Width="140" Height="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{StaticResource GoldPrimary}" Foreground="#141414" FontWeight="Bold" Click="SaveSettings_Click">
+                                <Button Content="BACK" Width="140" Height="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#252525" Foreground="{StaticResource TextNormal}" BorderBrush="{StaticResource BorderDark}" BorderThickness="1" Click="BackButton_Click" />
+                                <Button Content="SAVE" Width="140" Height="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{StaticResource GoldPrimary}" Foreground="#141414" FontWeight="Bold" Click="SaveSettings_Click">
                                     <Button.Styles>
                                         <Style Selector="Button:hover">
                                             <Setter Property="Background" Value="{StaticResource GoldBright}" />
